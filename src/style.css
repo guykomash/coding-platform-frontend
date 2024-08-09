@@ -1,0 +1,152 @@
+.codeblock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+.codeblockname {
+  color: #000;
+  border-bottom: #312136 2px solid;
+}
+.codeblockButtonWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+}
+.codeblock button {
+  margin-left: 1rem;
+  margin-bottom: 1rem;
+}
+.platform {
+  width: 80em;
+  height: 90em;
+}
+.info {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: space-around;
+  width: 100%;
+  background-color: #312136;
+  color: #f2f2f2;
+  border-radius: 1rem 1rem 0 0;
+  font-size: 14px;
+}
+.editor {
+  margin: 10px;
+  border: 1px solid #312136;
+}
+.editorDiv {
+  width: 70em;
+  height: 40em;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background-color: #100b12;
+  max-width: 100em;
+  border-radius: 0 0 1rem 1rem;
+}
+
+.editorDiv h2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  width: '100%';
+  color: #f2f2f2;
+  padding-left: 2rem;
+  text-align: start;
+}
+
+.codeDiv button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.codeDiv {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  /* margin: 5px; */
+  /* border: 1px solid #f2f2f2; */
+  /* border-radius: '0 0 1rem 1rem'; */
+  /* align-items: stretch; */
+  border-radius: 1rem 1rem 1rem 1rem;
+}
+
+.output {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+}
+
+.output button {
+  /* padding-left: 2rem; */
+  margin-left: 1rem;
+  color: #6aa84f;
+}
+.outputText {
+  display: flex;
+  flex-direction: column;
+  /* border: 1px solid #f2f2f2; */
+  justify-content: start;
+  align-items: start;
+  border-radius: '1rem';
+  padding: 10px;
+  margin-left: 10px;
+  width: 100%;
+  color: #f2f2f2;
+}
+
+.smileyDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lobbyDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+}
+
+.lobbyDiv h1 {
+  font-size: 4rem;
+  color: #000;
+  /* border-bottom: #312136 2px solid; */
+}
+
+.lobbyDiv h2 {
+  font-size: 2.5rem;
+  color: #312136;
+  border-bottom: #312136 2px solid;
+  line-height: 1;
+  margin-bottom: 3rem;
+}
+.lobbyCodeblockGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px; /* Space between buttons */
+  /* max-width: 600px; */
+}
+.lobbyCodeblockBtn {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 2em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+  height: 160px;
+  width: 200px;
+}
+
+.lobbyCodeblockBtn:hover {
+  background-color: #312136;
+  color: whitesmoke;
+}
