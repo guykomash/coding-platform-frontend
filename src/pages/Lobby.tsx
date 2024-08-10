@@ -15,7 +15,6 @@ const Lobby = () => {
     async function fetchCodeBlocks() {
       try {
         const response: AxiosResponse = await axios.get('/codeblock');
-        console.log(response.data);
         setCodeblocks(response.data?.CodeBlocks);
         setError(null);
       } catch (err) {
@@ -46,7 +45,7 @@ const Lobby = () => {
         <div>Loading...</div>
       ) : error ? (
         <div>Something went wrong. try again later!</div>
-      ) : codeBlocks.length > 0 ? (
+      ) : codeBlocks && codeBlocks.length > 0 ? (
         <div className="lobbyCodeblockGrid">
           {codeBlocks.map((cb) => (
             <div key={cb.codeBlockId}>
@@ -58,7 +57,7 @@ const Lobby = () => {
           ))}
         </div>
       ) : (
-        <p>no codeblocks</p>
+        <p>Cannot get the code blocks. Try again Later.🔜</p>
       )}
     </div>
   );

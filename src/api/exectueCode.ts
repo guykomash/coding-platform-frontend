@@ -5,24 +5,27 @@ const pistonAPI: AxiosInstance = axios.create({
   baseURL: baseURL,
 });
 
-export const executeCode = async (code: string): Promise<AxiosResponse> => {
-  try {
-    const runtimes = (await pistonAPI.get('/runtimes')).data;
-    const version = runtimes.find((rt) => rt.language == 'javascript').version;
+interface runtime {
+  language: string;
+  version?: string;
+}
 
-    const response: AxiosResponse = await pistonAPI.post('/execute', {
-      language: 'javascript',
-      version: version,
-      PISTON_DISABLE_NETWORKING: false,
-      files: [
-        {
-          name: 'code.js',
-          content: code,
-        },
-      ],
-    });
-    return response;
-  } catch (err) {
-    return err;
-  }
+export const executeCode = async (code: string) => {
+  const runtimes = (await pistonAPI.get('/runtimes')).data;
+  const version = runtimes.find(
+    (rt: runtime) => rt.language == 'javascript'
+  ).version;
+
+  const response: AxiosResponse = await pistonAPI.post('/execute', {
+    language: 'javascript',
+    version: version,
+    PISTON_DISABLE_NETWORKING: false,
+    files: [
+      {
+        name: 'code.js',
+        content: code,
+      },
+    ],
+  });
+  return response;
 };

@@ -32,7 +32,7 @@ const Output = ({ code }: OutputProps) => {
   return (
     <div className="output">
       <h2>Output</h2>
-      <button style={{  }} onClick={() => runCode()}>
+      <button style={{}} onClick={() => runCode()}>
         Run Code
       </button>
       <div className="outputText">{output}</div>
