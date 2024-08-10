@@ -78,12 +78,17 @@ const CodeBlock = () => {
         console.log('otherCodeChangeListener');
         const { otherCode, otherId } = otherCodeChange;
         if (otherId !== socket.id) {
-          // console.log(code);
-          console.log('socket.id', socket.id);
-          console.log('otherId', otherId);
-          console.log('codeChangeListener');
-          if (otherCode !== code) setCode(code);
+          //do
         }
+
+        // console.log(otherCode);
+        // console.log('socket.id', socket.id);
+        // console.log('otherId', otherId);
+        // console.log('codeChangeListener');
+        if (otherCode !== code) {
+          //do something
+        }
+        setCode(otherCode);
       });
       socket.on('codeSolved', () => setIsSolved(true));
       socket.on('role', (role: string) => setRole(role));
@@ -107,8 +112,6 @@ const CodeBlock = () => {
 
   const onCodeChange = (code: string) => {
     console.log('CodeBlock onCodeChange');
-
-    // setCode(code);
     socket.emit('codeChange', {
       roomId: codeBlockId,
       code: code,

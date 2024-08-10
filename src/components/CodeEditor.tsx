@@ -1,7 +1,15 @@
-// import { useEffect, useState } from 'react';
-import { Editor } from '@monaco-editor/react';
+// import { Editor } from '@monaco-editor/react';
+
+import CodeMirror, { EditorState, minimalSetup } from '@uiw/react-codemirror';
+import { javascript } from '@codemirror/lang-javascript';
+
+import {
+  syntaxHighlighting,
+  defaultHighlightStyle,
+} from '@codemirror/language';
 
 import Output from './Output';
+import { useEffect, useState } from 'react';
 
 interface CodeEditorProps {
   code: string;
@@ -9,37 +17,40 @@ interface CodeEditorProps {
   role: string;
 }
 
-const CodeEditor = ({ code, handleCodeChange, role }: CodeEditorProps) => {
-  // useEffect(() => {
+const CodeEditor = ({ code, role, handleCodeChange }: CodeEditorProps) => {
+  const extensions = [
+    minimalSetup({
+      syntaxHighlighting: true, // Enables syntax highlighting
+    }),
+    javascript(),
+    syntaxHighlighting(defaultHighlightStyle), // Apply the default syntax highlighting style
+    EditorState.readOnly.of(role === 'Mentor'),
+  ];
 
-  //   const getDefaultValue = (codeBlock: CodeEditorProps['codeBlock']) => {
-  //     const template =
-  //       (codeBlock as CodeBlockItem).templateCode || 'Happy coding!';
-  //     setCode(template);
-  //   };
+  const [outputCode, setOutputCode] = useState<string>(code);
 
-  //   getDefaultValue(codeBlock);
-  // }, []);
+  const handleLocalCodeChange = (code: string) => {
+    setOutputCode(code);
+    handleCodeChange(code);
+  };
 
   return (
     <div className="editorDiv">
       <div className="codeDiv">
         <h2>Code</h2>
-        <Editor
-          defaultLanguage="javascript"
-          height={'87%'}
-          className="editor"
-          theme="vs-dark"
-          value={code}
-          onChange={(c: string | undefined) => {
-            console.log('editor onChange');
-            handleCodeChange(c || '');
-          }}
-          options={{ readOnly: role === 'Mentor' }}
-        />
+        <div className="editor">
+          <CodeMirror
+            // defaultValue={code}
+            value={code}
+            height="400px"
+            onChange={(e) => handleLocalCodeChange(e)}
+            extensions={extensions}
+            style={{ fontSize: '16px' }}
+          />
+        </div>
       </div>
       <div className="codeDiv">
-        <Output code={code} />
+        <Output code={outputCode} />
       </div>
     </div>
   );
