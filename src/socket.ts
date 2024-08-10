@@ -14,7 +14,6 @@ export function checkSolution(solution: string | null, code: string): boolean {
     const isSolved = JSON.stringify(solutionEval) === JSON.stringify(codeEval);
     return isSolved;
   } catch (err) {
-    console.log(err);
     return false;
   }
 }

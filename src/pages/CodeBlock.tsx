@@ -57,9 +57,14 @@ const CodeBlock = () => {
 
     // Socket listeners
     socket.on('initCodeBlock', (codeBlock) => initCodeBlock(codeBlock));
-    socket.on('codeChange', (code: string) => {
-      console.log('codeChangeListener');
-      setCode(code);
+    socket.on('codeChange', (codeChange) => {
+      const { id, code } = codeChange;
+      if (id !== socket.id) {
+        console.log(id);
+        console.log(socket.id);
+        console.log('codeChangeListener');
+        setCode(code);
+      }
     });
     socket.on('codeSolved', () => setIsSolved(true));
     socket.on('role', (role: string) => setRole(role));
@@ -83,7 +88,11 @@ const CodeBlock = () => {
   const onCodeChange = (code: string) => {
     console.log('CodeBlock onCodeChange');
     setCode(code);
-    socket.emit('codeChange', { roomId: codeBlockId, code: code });
+    socket.emit('codeChange', {
+      roomId: codeBlockId,
+      code: code,
+      id: socket.id,
+    });
     const isSolved = checkSolution(solution, code);
     setIsSolved(isSolved);
     if (isSolved) {
