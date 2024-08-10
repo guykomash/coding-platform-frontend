@@ -144,6 +144,9 @@
   transition: border-color 0.25s;
   height: 160px;
   width: 200px;
+  color: white;
+  display: table;
+  margin: auto;
 }
 
 .lobbyCodeblockBtn:hover {

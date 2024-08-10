@@ -3,6 +3,7 @@ export interface CodeBlockItem {
   name: string;
   templateCode: string;
   description?: string;
+  solution: string;
 }
 
 export type CodeBlockItems = CodeBlockItem[];
