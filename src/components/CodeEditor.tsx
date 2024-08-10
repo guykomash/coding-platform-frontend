@@ -32,8 +32,8 @@ const CodeEditor = ({ code, handleCodeChange, role }: CodeEditorProps) => {
           theme="vs-dark"
           value={code}
           onChange={(c: string | undefined) => {
+            console.log('editor onChange');
             handleCodeChange(c || '');
-            // console.log(newValue);
           }}
           options={{ readOnly: role === 'Mentor' }}
         />
