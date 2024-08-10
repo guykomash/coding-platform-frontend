@@ -64,11 +64,14 @@ const CodeBlock = () => {
       console.log('socket.id = useEffect', socket.id);
       // Socket listeners
       socket.on('initCodeBlock', (codeBlock) => initCodeBlock(codeBlock));
-      socket.on('otherCodeChange', (code) => {
-        console.log(code);
-        console.log(socket.id);
-        console.log('codeChangeListener');
-        setCode(code);
+      socket.on('otherCodeChange', (otherCodeChange) => {
+        const { code, otherId } = otherCodeChange;
+        if (otherId !== socket.id) {
+          console.log(code);
+          console.log(socket.id);
+          console.log('codeChangeListener');
+          setCode(code);
+        }
       });
       socket.on('codeSolved', () => setIsSolved(true));
       socket.on('role', (role: string) => setRole(role));
