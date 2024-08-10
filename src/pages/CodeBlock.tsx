@@ -27,7 +27,6 @@ const CodeBlock = () => {
   const [error, setError] = useState<string | null>(null);
 
   // Socket
-  const [socketConnection, setSocketConnection] = useState<boolean>(false);
   const [studentCounter, setStudentCounter] = useState<number>(0);
   const [role, setRole] = useState<string>('loading role...');
   const [code, setCode] = useState<string>('');
@@ -70,22 +69,17 @@ const CodeBlock = () => {
 
     fetchCodeBlock();
 
-    if (!socketConnection) {
-      setSocketConnection(true);
-      // console.log('socket.id = useEffect', socket.id);
-      // Socket listeners
-      socket.on('otherCodeChange', (otherCodeChange) => {
-        const { otherCode } = otherCodeChange;
-        setCode(otherCode);
-      });
-      socket.on('codeSolved', () => setIsSolved(true));
-      socket.on('role', (role: string) => setRole(role));
-      socket.on('studentCount', (count: number) =>
-        setStudentCounter(count - 1)
-      );
-      socket.on('mentorDisconnected', () => navigate('/'));
-      socket.emit('joinRoom', codeBlockId);
-    }
+    // console.log('socket.id = useEffect', socket.id);
+    // Socket listeners
+    socket.on('otherCodeChange', (otherCodeChange) => {
+      const { otherCode } = otherCodeChange;
+      setCode(otherCode);
+    });
+    socket.on('codeSolved', () => setIsSolved(true));
+    socket.on('role', (role: string) => setRole(role));
+    socket.on('studentCount', (count: number) => setStudentCounter(count - 1));
+    socket.on('mentorDisconnected', () => navigate('/'));
+    socket.emit('joinRoom', codeBlockId);
 
     return () => {
       // Remove the listeners.
