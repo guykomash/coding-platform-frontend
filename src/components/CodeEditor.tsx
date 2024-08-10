@@ -40,7 +40,6 @@ const CodeEditor = ({ code, role, handleCodeChange }: CodeEditorProps) => {
         <h2>Code</h2>
         <div className="editor">
           <CodeMirror
-            // defaultValue={code}
             value={code}
             height="400px"
             onChange={(e) => handleLocalCodeChange(e)}

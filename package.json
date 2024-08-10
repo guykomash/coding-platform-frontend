@@ -6,9 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "start": "npx http-server --proxy http://localhost:8080? ./dist",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
-    "start": "npx http-server ./dist"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@codemirror/basic-setup": "^0.20.0",

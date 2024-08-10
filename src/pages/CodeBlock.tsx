@@ -72,22 +72,10 @@ const CodeBlock = () => {
 
     if (!socketConnection) {
       setSocketConnection(true);
-      console.log('socket.id = useEffect', socket.id);
+      // console.log('socket.id = useEffect', socket.id);
       // Socket listeners
       socket.on('otherCodeChange', (otherCodeChange) => {
-        console.log('otherCodeChangeListener');
-        const { otherCode, otherId } = otherCodeChange;
-        if (otherId !== socket.id) {
-          //do
-        }
-
-        // console.log(otherCode);
-        // console.log('socket.id', socket.id);
-        // console.log('otherId', otherId);
-        // console.log('codeChangeListener');
-        if (otherCode !== code) {
-          //do something
-        }
+        const { otherCode } = otherCodeChange;
         setCode(otherCode);
       });
       socket.on('codeSolved', () => setIsSolved(true));
@@ -111,7 +99,7 @@ const CodeBlock = () => {
   }, []);
 
   const onCodeChange = (code: string) => {
-    console.log('CodeBlock onCodeChange');
+    // console.log('CodeBlock onCodeChange');
     socket.emit('codeChange', {
       roomId: codeBlockId,
       code: code,

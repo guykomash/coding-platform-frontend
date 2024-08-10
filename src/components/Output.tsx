@@ -10,7 +10,7 @@ const Output = ({ code }: OutputProps) => {
   const [output, setOutput] = useState<string>('');
 
   const runCode = async () => {
-    console.log(code);
+    // console.log(code);
     if (!code) {
       console.log(`code not good`);
     }
