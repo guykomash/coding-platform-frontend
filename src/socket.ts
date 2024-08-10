@@ -1,3 +1,5 @@
+
+
 export function checkSolution(solution: string | null, code: string): boolean {
   if (!solution) {
     return false;

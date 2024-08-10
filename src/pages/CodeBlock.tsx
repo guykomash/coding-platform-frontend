@@ -1,12 +1,17 @@
+import { AxiosResponse } from 'axios';
+import axios from '../api/axios';
 import { useEffect, useState } from 'react';
-
 import { useNavigate, useParams } from 'react-router-dom';
 import CodeEditor from '../components/CodeEditor';
 import { checkSolution } from '../socket';
 
 import { io } from 'socket.io-client';
+
 const URL = import.meta.env.VITE_SERVER_API_URL;
-const socket = io(URL);
+
+const socket = io(URL, {
+  forceNew: true,
+});
 
 // Types
 import { CodeBlockItem } from '../types';
@@ -32,7 +37,12 @@ const CodeBlock = () => {
   const [isSolved, setIsSolved] = useState<boolean>(false);
 
   useEffect(() => {
-    const initCodeBlock = (codeBlock: CodeBlockItem) => {
+    async function fetchCodeBlock() {
+      // try {
+      const response: AxiosResponse = await axios.get(
+        `/codeblock/${codeBlockId}`
+      );
+      const codeBlock: CodeBlockItem = response?.data?.CodeBlock;
       if (!codeBlock) {
         setError('Failed to fetch Code blocks');
         setCode('');
@@ -56,21 +66,23 @@ const CodeBlock = () => {
       setError(null);
       setLoading(false);
       return;
-    };
+    }
+
+    fetchCodeBlock();
 
     if (!socketConnection) {
-      socket.connect();
       setSocketConnection(true);
       console.log('socket.id = useEffect', socket.id);
       // Socket listeners
-      socket.on('initCodeBlock', (codeBlock) => initCodeBlock(codeBlock));
       socket.on('otherCodeChange', (otherCodeChange) => {
-        const { code, otherId } = otherCodeChange;
+        console.log('otherCodeChangeListener');
+        const { otherCode, otherId } = otherCodeChange;
         if (otherId !== socket.id) {
-          console.log(code);
-          console.log(socket.id);
+          // console.log(code);
+          console.log('socket.id', socket.id);
+          console.log('otherId', otherId);
           console.log('codeChangeListener');
-          setCode(code);
+          if (otherCode !== code) setCode(code);
         }
       });
       socket.on('codeSolved', () => setIsSolved(true));
@@ -84,7 +96,6 @@ const CodeBlock = () => {
 
     return () => {
       // Remove the listeners.
-      socket.off('initCodeBlock');
       socket.off('otherCodeChange');
       socket.off('codeSolved');
       socket.off('role');
@@ -96,7 +107,8 @@ const CodeBlock = () => {
 
   const onCodeChange = (code: string) => {
     console.log('CodeBlock onCodeChange');
-    setCode(code);
+
+    // setCode(code);
     socket.emit('codeChange', {
       roomId: codeBlockId,
       code: code,
