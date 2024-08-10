@@ -64,9 +64,8 @@ const CodeBlock = () => {
       console.log('socket.id = useEffect', socket.id);
       // Socket listeners
       socket.on('initCodeBlock', (codeBlock) => initCodeBlock(codeBlock));
-      socket.on('otherCodeChange', (codeChange) => {
-        // console.log(codeChange);
-        const { code } = codeChange;
+      socket.on('otherCodeChange', (code) => {
+        console.log(code);
         console.log(socket.id);
         console.log('codeChangeListener');
         setCode(code);
@@ -83,7 +82,7 @@ const CodeBlock = () => {
     return () => {
       // Remove the listeners.
       socket.off('initCodeBlock');
-      socket.off('codeChange');
+      socket.off('otherCodeChange');
       socket.off('codeSolved');
       socket.off('role');
       socket.off('studentCount');
