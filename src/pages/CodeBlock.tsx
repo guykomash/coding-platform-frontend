@@ -2,7 +2,11 @@ import { useEffect, useState } from 'react';
 
 import { useNavigate, useParams } from 'react-router-dom';
 import CodeEditor from '../components/CodeEditor';
-import { socket, checkSolution } from '../socket';
+import { checkSolution } from '../socket';
+
+import { io } from 'socket.io-client';
+const URL = import.meta.env.VITE_SERVER_API_URL;
+const socket = io(URL);
 
 // Types
 import { CodeBlockItem } from '../types';
@@ -18,11 +22,11 @@ const CodeBlock = () => {
   const [error, setError] = useState<string | null>(null);
 
   // Socket
+  const [socketConnection, setSocketConnection] = useState<boolean>(false);
   const [studentCounter, setStudentCounter] = useState<number>(0);
   const [role, setRole] = useState<string>('loading role...');
   const [code, setCode] = useState<string>('');
   const [name, setName] = useState<string>('');
-
   const [solution, setSolution] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [isSolved, setIsSolved] = useState<boolean>(false);
@@ -54,23 +58,27 @@ const CodeBlock = () => {
       return;
     };
 
-    socket.connect();
-
-    // Socket listeners
-    socket.on('initCodeBlock', (codeBlock) => initCodeBlock(codeBlock));
-    socket.on('codeChange', (codeChange) => {
-      console.log(codeChange);
-      const { id, code } = codeChange;
-      console.log(id);
-      console.log(socket.id);
-      console.log('codeChangeListener');
-      setCode(code);
-    });
-    socket.on('codeSolved', () => setIsSolved(true));
-    socket.on('role', (role: string) => setRole(role));
-    socket.on('studentCount', (count: number) => setStudentCounter(count - 1));
-    socket.on('mentorDisconnected', () => navigate('/'));
-    socket.emit('joinRoom', codeBlockId);
+    if (!socketConnection) {
+      socket.connect();
+      setSocketConnection(true);
+      console.log('socket.id = useEffect', socket.id);
+      // Socket listeners
+      socket.on('initCodeBlock', (codeBlock) => initCodeBlock(codeBlock));
+      socket.on('otherCodeChange', (codeChange) => {
+        // console.log(codeChange);
+        const { code } = codeChange;
+        console.log(socket.id);
+        console.log('codeChangeListener');
+        setCode(code);
+      });
+      socket.on('codeSolved', () => setIsSolved(true));
+      socket.on('role', (role: string) => setRole(role));
+      socket.on('studentCount', (count: number) =>
+        setStudentCounter(count - 1)
+      );
+      socket.on('mentorDisconnected', () => navigate('/'));
+      socket.emit('joinRoom', codeBlockId);
+    }
 
     return () => {
       // Remove the listeners.
@@ -86,7 +94,7 @@ const CodeBlock = () => {
 
   const onCodeChange = (code: string) => {
     console.log('CodeBlock onCodeChange');
-    // setCode(code);
+    setCode(code);
     socket.emit('codeChange', {
       roomId: codeBlockId,
       code: code,
