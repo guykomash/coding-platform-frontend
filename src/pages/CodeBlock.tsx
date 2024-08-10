@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { useNavigate, useParams } from 'react-router-dom';
 import CodeEditor from '../components/CodeEditor';
-import { socket } from '../socket';
+import { socket, checkSolution } from '../socket';
 
 // Types
 import { CodeBlockItem } from '../types';
@@ -22,6 +22,7 @@ const CodeBlock = () => {
   const [role, setRole] = useState<string>('loading role...');
   const [code, setCode] = useState<string>('');
   const [name, setName] = useState<string>('');
+  const [solution, setSolution] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [isSolved, setIsSolved] = useState<boolean>(false);
 
@@ -35,7 +36,7 @@ const CodeBlock = () => {
         setLoading(false);
         return;
       }
-      const { name, templateCode, description } = codeBlock;
+      const { name, templateCode, description, solution } = codeBlock;
       if (!name || !templateCode) {
         setError('Failed to fetch Code blocks');
         setCode('');
@@ -47,6 +48,7 @@ const CodeBlock = () => {
       setCode(templateCode);
       setName(name);
       setDescription(description ?? '');
+      setSolution(solution);
       setError(null);
       setLoading(false);
       return;
@@ -57,7 +59,7 @@ const CodeBlock = () => {
     // Socket listeners
     socket.on('initCodeBlock', (codeBlock) => initCodeBlock(codeBlock));
     socket.on('codeChange', (code: string) => setCode(code));
-    socket.on('codeSolved', (isSolved: boolean) => setIsSolved(isSolved));
+    socket.on('codeSolved', () => setIsSolved(true));
     socket.on('role', (role: string) => setRole(role));
     socket.on('studentCount', (count: number) => setStudentCounter(count - 1));
     socket.on('mentorDisconnected', () => navigate('/'));
@@ -66,9 +68,12 @@ const CodeBlock = () => {
 
     return () => {
       // Remove the listeners.
-      socket.off('studentCount');
-      socket.off('role');
+      socket.off('initCodeBlock');
       socket.off('codeChange');
+      socket.off('codeSolved');
+      socket.off('role');
+      socket.off('studentCount');
+      socket.off('mentorDisconnected');
       socket.disconnect();
     };
   }, []);
@@ -76,6 +81,11 @@ const CodeBlock = () => {
   const onCodeChange = (code: string) => {
     setCode(code);
     socket.emit('codeChange', { roomId: codeBlockId, code: code });
+    const isSolved = checkSolution(solution, code);
+    setIsSolved(isSolved);
+    if (isSolved) {
+      socket.emit('codeSolved', codeBlockId);
+    }
   };
 
   return (
