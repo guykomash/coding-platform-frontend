@@ -22,6 +22,7 @@ const CodeBlock = () => {
   const [role, setRole] = useState<string>('loading role...');
   const [code, setCode] = useState<string>('');
   const [name, setName] = useState<string>('');
+
   const [solution, setSolution] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [isSolved, setIsSolved] = useState<boolean>(false);
@@ -58,19 +59,17 @@ const CodeBlock = () => {
     // Socket listeners
     socket.on('initCodeBlock', (codeBlock) => initCodeBlock(codeBlock));
     socket.on('codeChange', (codeChange) => {
+      console.log(codeChange);
       const { id, code } = codeChange;
-      if (id !== socket.id) {
-        console.log(id);
-        console.log(socket.id);
-        console.log('codeChangeListener');
-        setCode(code);
-      }
+      console.log(id);
+      console.log(socket.id);
+      console.log('codeChangeListener');
+      setCode(code);
     });
     socket.on('codeSolved', () => setIsSolved(true));
     socket.on('role', (role: string) => setRole(role));
     socket.on('studentCount', (count: number) => setStudentCounter(count - 1));
     socket.on('mentorDisconnected', () => navigate('/'));
-
     socket.emit('joinRoom', codeBlockId);
 
     return () => {
@@ -87,11 +86,10 @@ const CodeBlock = () => {
 
   const onCodeChange = (code: string) => {
     console.log('CodeBlock onCodeChange');
-    setCode(code);
+    // setCode(code);
     socket.emit('codeChange', {
       roomId: codeBlockId,
       code: code,
-      id: socket.id,
     });
     const isSolved = checkSolution(solution, code);
     setIsSolved(isSolved);
