@@ -28,7 +28,6 @@ const CodeBlock = () => {
 
   useEffect(() => {
     const initCodeBlock = (codeBlock: CodeBlockItem) => {
-      console.log(codeBlock);
       if (!codeBlock) {
         setError('Failed to fetch Code blocks');
         setCode('');
