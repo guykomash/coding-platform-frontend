@@ -9,7 +9,7 @@ import {
 } from '@codemirror/language';
 
 import Output from './Output';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 interface CodeEditorProps {
   code: string;
