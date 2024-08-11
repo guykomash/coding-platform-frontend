@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { executeCode } from '../api/exectueCode';
 import { AxiosResponse } from 'axios';
 
@@ -8,6 +8,8 @@ interface OutputProps {
 
 const Output = ({ code }: OutputProps) => {
   const [output, setOutput] = useState<string>('');
+
+  useEffect(() => {}, [code]);
 
   const runCode = async () => {
     try {

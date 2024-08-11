@@ -11,7 +11,7 @@ import {
 } from '@codemirror/language';
 
 import Output from './Output';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface CodeEditorProps {
   code: string;
@@ -36,6 +36,10 @@ const CodeEditor = ({ code, role, handleCodeChange }: CodeEditorProps) => {
     setOutputCode(code);
     handleCodeChange(code);
   };
+
+  useEffect(() => {
+    setOutputCode(code);
+  }, [code]);
 
   return (
     <div className="editorDiv">

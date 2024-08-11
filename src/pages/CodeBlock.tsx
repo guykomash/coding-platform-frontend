@@ -27,6 +27,7 @@ const CodeBlock = () => {
   const [error, setError] = useState<string | null>(null);
 
   // Socket
+  const [templateCode, setTemplateCode] = useState<string>('');
   const [studentCounter, setStudentCounter] = useState<number>(1);
   const [role, setRole] = useState<string>('Loading role...');
   const [code, setCode] = useState<string>('');
@@ -44,7 +45,7 @@ const CodeBlock = () => {
       const codeBlock: CodeBlockItem = response?.data?.CodeBlock;
       if (!codeBlock) {
         setError('Failed to fetch Code blocks');
-        setCode('');
+        setTemplateCode('');
         setName('');
         setLoading(false);
         return;
@@ -52,13 +53,13 @@ const CodeBlock = () => {
       const { name, templateCode, description, solution } = codeBlock;
       if (!name || !templateCode) {
         setError('Failed to fetch Code blocks');
-        setCode('');
+        setTemplateCode('');
         setName('');
         setLoading(false);
         return;
       }
       // Success.
-      setCode(templateCode);
+      setTemplateCode(templateCode); // Updated code will be fetched using joinCode listener.
       setName(name);
       setDescription(description ?? '');
       setSolution(solution);
@@ -78,6 +79,14 @@ const CodeBlock = () => {
     const onCodeSolved = () => setIsSolved(true);
     const onRole = (role: string) => setRole(role);
     const onStudentCount = (count: number) => setStudentCounter(count);
+    const onJoinCode = (code: string) => {
+      console.log('joined code');
+      if (code) {
+        setCode(code);
+      } else {
+        setCode(templateCode);
+      }
+    };
 
     const onMentorDisconn = () => navigate('/');
     socket.on('otherCodeChange', onOtherCodeChange);
@@ -85,6 +94,7 @@ const CodeBlock = () => {
     socket.on('role', onRole);
     socket.on('studentCount', onStudentCount);
     socket.on('mentorDisconnected', onMentorDisconn);
+    socket.on('joinCode', onJoinCode);
 
     socket.emit('joinRoom', codeBlockId);
 
@@ -95,6 +105,7 @@ const CodeBlock = () => {
       socket.off('role', onRole);
       socket.off('studentCount', onStudentCount);
       socket.off('mentorDisconnected', onMentorDisconn);
+      socket.off('joinCode', onJoinCode);
       socket.disconnect();
     };
   }, []);
