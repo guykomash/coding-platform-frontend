@@ -71,24 +71,34 @@ const CodeBlock = () => {
 
     // console.log('socket.id = useEffect', socket.id);
     // Socket listeners
-    socket.on('otherCodeChange', (otherCodeChange) => {
+    const onOtherCodeChange = (otherCodeChange: { otherCode: string }) => {
       const { otherCode } = otherCodeChange;
       setCode(otherCode);
-    });
-    socket.on('codeSolved', () => setIsSolved(true));
-    socket.on('role', (role: string) => setRole(role));
-    socket.on('studentCount', (count: number) => setStudentCounter(count - 1));
-    socket.on('mentorDisconnected', () => navigate('/'));
+    };
+
+    const onCodeSolved = () => setIsSolved(true);
+    const onRole = (role: string) => setRole(role);
+    const onStudentCount = (count: number) => setStudentCounter(count);
+
+    const onMentorDisconn = () => navigate('/');
+    socket.on('otherCodeChange', onOtherCodeChange);
+    socket.on('codeSolved', onCodeSolved);
+    socket.on('role', onRole);
+    socket.on('studentCount', onStudentCount);
+    socket.on('mentorDisconnected', onMentorDisconn);
+
     socket.emit('joinRoom', codeBlockId);
+    // conso-le.log('connected');
 
     return () => {
       // Remove the listeners.
-      socket.off('otherCodeChange');
-      socket.off('codeSolved');
-      socket.off('role');
-      socket.off('studentCount');
-      socket.off('mentorDisconnected');
+      socket.off('otherCodeChange', onOtherCodeChange);
+      socket.off('codeSolved', onCodeSolved);
+      socket.off('role', onRole);
+      socket.off('studentCount', onStudentCount);
+      socket.off('mentorDisconnected', onMentorDisconn);
       socket.disconnect();
+      // console.log('disconnected');
     };
   }, []);
 
@@ -151,7 +161,7 @@ const CodeBlock = () => {
                 </strong>
               </p>
               <p>
-                Students in room: <strong>{studentCounter}</strong>
+                People in room: <strong>{studentCounter}</strong>
               </p>
             </div>
 

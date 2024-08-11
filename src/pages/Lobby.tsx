@@ -3,7 +3,6 @@ import axios from '../api/axios';
 import { useEffect, useState } from 'react';
 import { CodeBlockItems } from '../types.ts';
 
-import { Link } from 'react-router-dom';
 import Palm from '../assets/icon-palm-tree.jpg';
 
 const Lobby = () => {
@@ -49,10 +48,12 @@ const Lobby = () => {
         <div className="lobbyCodeblockGrid">
           {codeBlocks.map((cb) => (
             <div key={cb.codeBlockId}>
-              <Link to={`codeblock/${cb.codeBlockId}`}>
-                {' '}
+              <a href={`codeblock/${cb.codeBlockId}`}>
                 <button className="lobbyCodeblockBtn">{cb.name}</button>
-              </Link>
+              </a>
+              {/* <Link to={`codeblock/${cb.codeBlockId}`}>
+                {' '}
+              </Link> */}
             </div>
           ))}
         </div>
