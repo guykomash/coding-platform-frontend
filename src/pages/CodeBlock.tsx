@@ -27,7 +27,7 @@ const CodeBlock = () => {
   const [error, setError] = useState<string | null>(null);
 
   // Socket
-  const [studentCounter, setStudentCounter] = useState<number>(0);
+  const [studentCounter, setStudentCounter] = useState<number>(1);
   const [role, setRole] = useState<string>('Loading role...');
   const [code, setCode] = useState<string>('');
   const [name, setName] = useState<string>('');

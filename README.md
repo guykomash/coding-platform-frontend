@@ -1,30 +1,21 @@
-# React + TypeScript + Vite
+# Coding Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A real-time multi-user Javascript coding platform!
 
-Currently, two official plugins are available:
+## Lobby
+Each code block is designed to be a standalone lesson. The first user to enter a code block becomes the mentor, while all subsequent users who join (as long as the mentor is still present) will be students.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![Lobby](Lobby.png)
 
-## Expanding the ESLint configuration
+## Code Block Page
+Upon entering the code block, users will see their assigned role (mentor or student) and the number of people currently in the room. The code editor is connected to a socket, enabling students to collaborate in real-time by writing code together. Users can also run the code independently of each other and see the results. The mentor has read-only access and cannot modify the code. When the mentor leaves the room, all students are redirected to the lobby. If the students successfully solve the code block task, a large smiley face will appear on the screen.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Mentor
+![Code Block Page](<Code Block Page.png>)
 
-- Configure the top-level `parserOptions` property like this:
+### Student
+![Student Code Block Page](Student.png)
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json', './tsconfig.app.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+### When task is solved:
+![Solved](Solved.png)
