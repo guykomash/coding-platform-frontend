@@ -28,7 +28,7 @@ const CodeBlock = () => {
 
   // Socket
   const [studentCounter, setStudentCounter] = useState<number>(0);
-  const [role, setRole] = useState<string>('loading role...');
+  const [role, setRole] = useState<string>('Loading role...');
   const [code, setCode] = useState<string>('');
   const [name, setName] = useState<string>('');
   const [solution, setSolution] = useState<string>('');
@@ -69,7 +69,6 @@ const CodeBlock = () => {
 
     fetchCodeBlock();
 
-    // console.log('socket.id = useEffect', socket.id);
     // Socket listeners
     const onOtherCodeChange = (otherCodeChange: { otherCode: string }) => {
       const { otherCode } = otherCodeChange;
@@ -88,7 +87,6 @@ const CodeBlock = () => {
     socket.on('mentorDisconnected', onMentorDisconn);
 
     socket.emit('joinRoom', codeBlockId);
-    // conso-le.log('connected');
 
     return () => {
       // Remove the listeners.
@@ -98,12 +96,10 @@ const CodeBlock = () => {
       socket.off('studentCount', onStudentCount);
       socket.off('mentorDisconnected', onMentorDisconn);
       socket.disconnect();
-      // console.log('disconnected');
     };
   }, []);
 
   const onCodeChange = (code: string) => {
-    // console.log('CodeBlock onCodeChange');
     socket.emit('codeChange', {
       roomId: codeBlockId,
       code: code,
@@ -154,7 +150,9 @@ const CodeBlock = () => {
                   style={
                     role === 'Student'
                       ? { color: '#ffd966' }
-                      : { color: '#5ad25a' }
+                      : role === 'Mentor'
+                      ? { color: '#5ad25a' }
+                      : { color: '#f2f2f2' }
                   }
                 >
                   {role}

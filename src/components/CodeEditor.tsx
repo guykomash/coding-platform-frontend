@@ -1,6 +1,8 @@
-// import { Editor } from '@monaco-editor/react';
-
-import CodeMirror, { EditorState, minimalSetup } from '@uiw/react-codemirror';
+import CodeMirror, {
+  EditorState,
+  EditorView,
+  minimalSetup,
+} from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 
 import {
@@ -20,11 +22,12 @@ interface CodeEditorProps {
 const CodeEditor = ({ code, role, handleCodeChange }: CodeEditorProps) => {
   const extensions = [
     minimalSetup({
-      syntaxHighlighting: true, // Enables syntax highlighting
+      syntaxHighlighting: true,
     }),
     javascript(),
-    syntaxHighlighting(defaultHighlightStyle), // Apply the default syntax highlighting style
+    syntaxHighlighting(defaultHighlightStyle),
     EditorState.readOnly.of(role === 'Mentor'),
+    EditorView.lineWrapping,
   ];
 
   const [outputCode, setOutputCode] = useState<string>(code);

@@ -51,9 +51,6 @@ const Lobby = () => {
               <a href={`codeblock/${cb.codeBlockId}`}>
                 <button className="lobbyCodeblockBtn">{cb.name}</button>
               </a>
-              {/* <Link to={`codeblock/${cb.codeBlockId}`}>
-                {' '}
-              </Link> */}
             </div>
           ))}
         </div>

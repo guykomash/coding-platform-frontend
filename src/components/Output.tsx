@@ -10,10 +10,6 @@ const Output = ({ code }: OutputProps) => {
   const [output, setOutput] = useState<string>('');
 
   const runCode = async () => {
-    // console.log(code);
-    if (!code) {
-      console.log(`code not good`);
-    }
     try {
       setOutput('Running Code...');
       const response: AxiosResponse = await executeCode(code);
