@@ -40,6 +40,10 @@ const Lobby = () => {
       />
       <h1>Tom's Coding Platform</h1>
       <h2>Choose Code Block</h2>
+      <h3>
+        Open the same code block in multiple tabs at the same time to collab in
+        real time!
+      </h3>
       {loading ? (
         <div>Loading...</div>
       ) : error ? (
