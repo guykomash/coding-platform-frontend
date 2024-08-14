@@ -1,5 +1,5 @@
 import CodeMirror, {
-  EditorState,
+  // EditorState,
   EditorView,
   minimalSetup,
 } from '@uiw/react-codemirror';
@@ -19,14 +19,14 @@ interface CodeEditorProps {
   role: string;
 }
 
-const CodeEditor = ({ code, role, handleCodeChange }: CodeEditorProps) => {
+const CodeEditor = ({ code, /*role,*/ handleCodeChange }: CodeEditorProps) => {
   const extensions = [
     minimalSetup({
       syntaxHighlighting: true,
     }),
     javascript(),
     syntaxHighlighting(defaultHighlightStyle),
-    EditorState.readOnly.of(role === 'Mentor'),
+    // EditorState.readOnly.of(role === 'Mentor'),
     EditorView.lineWrapping,
   ];
 
