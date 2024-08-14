@@ -1,6 +1,9 @@
 # Coding Platform
 
-A real-time multi-user Javascript coding platform!
+### A real-time multi-user Javascript coding platform!
+
+## You can find the backend application code <a href="https://github.com/guykomash/coding-platform-backend">here</a>.
+
 
 ## Lobby
 Each code block is designed to be a standalone lesson. The first user to enter a code block becomes the mentor, while all subsequent users who join (as long as the mentor is still present) will be students.
