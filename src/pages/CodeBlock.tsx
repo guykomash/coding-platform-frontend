@@ -168,6 +168,10 @@ const CodeBlock = () => {
                 >
                   {role}
                 </strong>
+                <span style={{ fontStyle: 'italic', fontWeight: '600' }}>
+                  &nbsp;&nbsp;&nbsp;
+                  {role === 'Mentor' ? `Read Only Mode` : `Edit Mode`}
+                </span>
               </p>
               <p>
                 People in room: <strong>{studentCounter}</strong>
